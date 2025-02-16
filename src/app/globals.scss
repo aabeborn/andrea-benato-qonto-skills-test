@@ -14,7 +14,7 @@ html,
 body {
 	/* Set the width and height to be at least 100% of the viewport. using sv, avoid errors in mobile */
 	width: 100svw;
-	min-height: 100svh;
+	height: 100svh;
 
 	overflow-x: hidden;
 	overflow-y: auto;
@@ -24,6 +24,8 @@ body {
 	font-family: var(--Font-display);
 	-webkit-font-smoothing: antialiased;
 	-moz-osx-font-smoothing: grayscale;
+
+	background-color: var(--color-primary-white);
 }
 
 * {

@@ -1,6 +1,6 @@
 import { type FC, type HTMLAttributes, useMemo } from 'react'
-import './index.css'
 import clsx from 'clsx'
+import styles from './index.module.scss'
 
 type Variant = 'body-1' | 'title-1'
 interface Props extends HTMLAttributes<HTMLElement> {
@@ -9,8 +9,8 @@ interface Props extends HTMLAttributes<HTMLElement> {
 }
 
 const variantsClasses: Record<Variant, string> = {
-	'body-1': 'text-body-1',
-	'title-1': 'text-title-1'
+	'body-1': styles['text-body-1'],
+	'title-1': styles['text-title-1']
 }
 
 const Text: FC<Props> = ({ as = 'span', children, className, variant = 'body-1', ...props }) => {

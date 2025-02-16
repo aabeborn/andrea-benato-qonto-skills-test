@@ -1,7 +1,7 @@
-import clsx from 'clsx'
 import { type FC, useMemo, type ComponentProps, useCallback, type MouseEventHandler } from 'react'
-import { ArrowUp, ArrowDown, ChevronUpDown } from '../icons'
-import './index.css'
+import clsx from 'clsx'
+import { ArrowUp, ArrowDown, ChevronUpDown } from '@/components/icons'
+import styles from './index.module.scss'
 
 interface TableHeadProps extends ComponentProps<'th'> {
 	sortable?: boolean
@@ -14,7 +14,7 @@ interface TableRowProps extends ComponentProps<'tr'> {
 }
 
 const Table: FC<ComponentProps<'table'>> = ({ children, className, ...props }) => {
-	const classes = useMemo(() => clsx('table', className), [className])
+	const classes = useMemo(() => clsx(styles.table, className), [className])
 	return (
 		<table
 			className={classes}
@@ -26,7 +26,7 @@ const Table: FC<ComponentProps<'table'>> = ({ children, className, ...props }) =
 }
 
 const TableHeader: FC<ComponentProps<'thead'>> = ({ children, className, ...props }) => {
-	const classes = useMemo(() => clsx('table__header', className), [className])
+	const classes = useMemo(() => clsx(styles.table__header, className), [className])
 	return (
 		<thead
 			className={classes}
@@ -38,7 +38,7 @@ const TableHeader: FC<ComponentProps<'thead'>> = ({ children, className, ...prop
 }
 
 const TableBody: FC<ComponentProps<'tbody'>> = ({ children, className, ...props }) => {
-	const classes = useMemo(() => clsx('table__body', className), [className])
+	const classes = useMemo(() => clsx(styles.table__body, className), [className])
 	return (
 		<tbody
 			className={classes}
@@ -51,7 +51,7 @@ const TableBody: FC<ComponentProps<'tbody'>> = ({ children, className, ...props 
 
 const TableRow: FC<TableRowProps> = ({ children, className, isSelected, ...props }) => {
 	const classes = useMemo(
-		() => clsx('table__row', isSelected && 'table__row--selected', className),
+		() => clsx(styles.table__row, isSelected && styles['table__row--selected'], className),
 		[isSelected, className]
 	)
 	return (
@@ -66,15 +66,15 @@ const TableRow: FC<TableRowProps> = ({ children, className, isSelected, ...props
 
 const TableHead: FC<TableHeadProps> = ({ children, className, sortable, sortDirection, onSort, ...props }) => {
 	const classes = useMemo(
-		() => clsx('table__head', sortable && 'table__head--sortable', className),
+		() => clsx(styles.table__head, sortable && styles['table__head--sortable'], className),
 		[sortable, className]
 	)
 
 	const sortIcon = useMemo(() => {
 		if (!sortable) return
-		if (sortDirection === 'asc') return <ArrowUp className='table__head__sort-icon' />
-		if (sortDirection === 'desc') return <ArrowDown className='table__head__sort-icon' />
-		return <ChevronUpDown className='table__sort-icon' />
+		if (sortDirection === 'asc') return <ArrowUp className={styles['table__head__sort-icon']} />
+		if (sortDirection === 'desc') return <ArrowDown className={styles['table__head__sort-icon']} />
+		return <ChevronUpDown className={styles['table__sort-icon']} />
 	}, [sortable, sortDirection])
 
 	const clickHandler = useCallback<MouseEventHandler<HTMLTableCellElement>>(
@@ -90,7 +90,7 @@ const TableHead: FC<TableHeadProps> = ({ children, className, sortable, sortDire
 			onClick={clickHandler}
 			{...props}
 		>
-			<div className='table__head__content'>
+			<div className={styles.table__head__content}>
 				{children}
 				{sortIcon}
 			</div>
@@ -99,7 +99,7 @@ const TableHead: FC<TableHeadProps> = ({ children, className, sortable, sortDire
 }
 
 const TableCell: FC<ComponentProps<'td'>> = ({ children, className, ...props }) => {
-	const classes = useMemo(() => clsx('table__cell', className), [className])
+	const classes = useMemo(() => clsx(styles.table__cell, className), [className])
 	return (
 		<td
 			className={classes}
