@@ -1,4 +1,4 @@
-import { type ReactNode } from 'react'
+import { type ReactNode, type JSX } from 'react'
 
 export interface Column<T> {
 	canBeSorted: boolean
@@ -13,6 +13,7 @@ export interface Cell<T> {
 	column: Column<T>
 	// eslint-disable-next-line @typescript-eslint/no-explicit-any
 	getValue: () => any
+	row: Row<T>
 }
 
 export interface Row<T> {
@@ -37,9 +38,9 @@ export interface ColumnDef<T> {
 	id: string
 	sortable?: boolean
 	accessor: keyof T | ((row: T) => string)
-	header: string | ((column: ColumnDef<T>) => ReactNode)
+	header: (column: ColumnDef<T>) => ReactNode | JSX.Element
 	sortingFn?: (a: T, b: T) => 1 | 0 | -1
-	cell: ({ row, ...cell }: Cell<T> & { row: Row<T> }) => ReactNode
+	cell: (cell: Cell<T>) => ReactNode | JSX.Element
 }
 
 export interface TableState {

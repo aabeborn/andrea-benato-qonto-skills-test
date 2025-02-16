@@ -1,17 +1,28 @@
-import { useCallback, useMemo } from 'react'
-import type { ColumnDef, UseTableParams, Column, Cell, Row } from './types'
+import { useCallback, useMemo, type ReactNode, isValidElement, type JSX } from 'react'
+import { defaultSorting } from '@/lib/table/sorting'
+import type { UseTableParams, Column, Cell, Row } from './types'
 
-const defaultSorting = <T>(a: T, b: T, columnDef: ColumnDef<T>): 1 | 0 | -1 => {
-	const valueA = typeof columnDef.accessor === 'function' ? columnDef.accessor(a) : a[columnDef.accessor]
-	const valueB = typeof columnDef.accessor === 'function' ? columnDef.accessor(b) : b[columnDef.accessor]
+export const renderHead = <T,>(column: Column<T>): ReactNode | JSX.Element => {
+	const { header } = column.def
+	if (isValidElement(header)) {
+		const Component = header
+		return <Component {...column.def} />
+	}
+	return header(column.def)
+}
 
-	if (valueA === valueB) return 0
-	return valueA > valueB ? 1 : -1
+export const renderCell = <T,>(item: Cell<T>): ReactNode | JSX.Element => {
+	const { cell } = item.column.def
+	if (isValidElement(cell)) {
+		const Component = cell
+		return <Component {...item} />
+	}
+	return cell(item)
 }
 
 /* TODO - For better reusability. state should be tracked also internally. 
   - Why not here the state management? This hooks can be used everywhere, so don't want to make it related to next or sorting via url params  */
-const useTable = <T>({ columnsDef, data, getRowId, onRowSelect, onColumnSort, state }: UseTableParams<T>) => {
+const useTable = <T,>({ columnsDef, data, getRowId, onRowSelect, onColumnSort, state }: UseTableParams<T>) => {
 	const onSort = useCallback(
 		(id: string) => {
 			if (state?.sort.column === id) {
@@ -30,18 +41,6 @@ const useTable = <T>({ columnsDef, data, getRowId, onRowSelect, onColumnSort, st
 		[onColumnSort, state?.sort]
 	)
 
-	/* Function responsible for rendering the heads of the table */
-	const renderHead = useCallback((column: ColumnDef<T>) => {
-		const { header } = column
-		if (typeof header === 'string') {
-			return header
-		}
-
-		if (typeof header === 'function') {
-			return header(column)
-		}
-	}, [])
-
 	/* Define table columns based of columns definition */
 	const columns = useMemo<Column<T>[]>(() => {
 		return columnsDef.map(columnDef => {
@@ -57,13 +56,6 @@ const useTable = <T>({ columnsDef, data, getRowId, onRowSelect, onColumnSort, st
 			}
 		})
 	}, [columnsDef, state?.sort])
-
-	/* Function responsible for rendering the cells of the table */
-	const renderCell = useCallback((item: Cell<T>, row: Row<T>) => {
-		const { cell } = item.column.def
-
-		return cell({ ...item, row })
-	}, [])
 
 	const sortRows = useCallback(
 		(rows: Row<T>[]) => {
@@ -89,10 +81,20 @@ const useTable = <T>({ columnsDef, data, getRowId, onRowSelect, onColumnSort, st
 		const rows = data.map((row, index) => {
 			const id = getRowId?.(row).toString() ?? index.toString()
 
-			// Pass down the columns
-			const cells = columns.map(column => ({
+			const item: Row<T> = {
+				id: id,
+				data: row,
+				select: () => {
+					onRowSelect?.(id, row)
+				},
+				cells: [],
+				isSelected: state?.selectedRow === id
+			}
+
+			item.cells = columns.map(column => ({
 				id: `${id}_${column.def.id}`,
 				column,
+				row: item,
 				getValue: () => {
 					if (typeof column.def.accessor === 'function') {
 						return column.def.accessor(row)
@@ -102,15 +104,7 @@ const useTable = <T>({ columnsDef, data, getRowId, onRowSelect, onColumnSort, st
 				}
 			}))
 
-			return {
-				id: id,
-				cells,
-				data: row,
-				select: () => {
-					onRowSelect?.(id, row)
-				},
-				isSelected: state?.selectedRow === id
-			}
+			return item
 		})
 
 		return sortRows(rows)
@@ -118,9 +112,7 @@ const useTable = <T>({ columnsDef, data, getRowId, onRowSelect, onColumnSort, st
 
 	return {
 		columns,
-		rows,
-		renderHead,
-		renderCell
+		rows
 	}
 }
 
