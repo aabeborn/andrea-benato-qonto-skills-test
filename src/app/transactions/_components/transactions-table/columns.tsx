@@ -1,8 +1,8 @@
 import Text from '@/components/text'
 import { formatDateToDayMonthYear } from '@/utils/date'
-import type { ColumnDef } from '@/hooks/table/types'
-import type { Transaction } from '@/types/api/transactions'
 import { dateSorting, numberSorting } from '@/lib/table/sorting'
+import type { ColumnDef } from '@/hooks/useTable'
+import type { Transaction } from '@/types/api/transactions'
 
 const columnsDefinition: ColumnDef<Transaction>[] = [
 	{

@@ -1,12 +1,12 @@
 'use client'
 import { useSearchParams, useParams, usePathname, useRouter } from 'next/navigation'
 import { type FC, use, useCallback } from 'react'
-import useTable, { renderCell, renderHead } from '@/hooks/table'
+import { useTable, renderCell, renderHead } from '@/hooks/useTable'
 import columnsDefinition from './columns'
 import { getSortDirection } from '@/lib/table/sorting'
 import { Table, TableHeader, TableRow, TableHead, TableBody, TableCell } from '@/components/table'
 import type { Transaction } from '@/types/api/transactions'
-import { type UseTableParams } from '@/hooks/table/types'
+import { type UseTableParams } from '@/hooks/useTable/types'
 import styles from './index.module.scss'
 
 interface TransactionsTableProps {

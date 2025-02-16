@@ -1,6 +1,6 @@
 import { memo } from 'react'
 import Text from '@/components/text'
-import type { Cell, Column, ColumnDef, Row } from '@/hooks/table/types'
+import type { Cell, Column, Row } from '@/hooks/useTable'
 import { formatDateToDayMonthYear } from '@/utils/date'
 import type { Transaction } from '@/types/api/transactions'
 

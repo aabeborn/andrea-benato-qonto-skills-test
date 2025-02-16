@@ -1,28 +1,10 @@
-import { useCallback, useMemo, type ReactNode, isValidElement, type JSX } from 'react'
+import { useCallback, useMemo } from 'react'
 import { defaultSorting } from '@/lib/table/sorting'
-import type { UseTableParams, Column, Cell, Row } from './types'
-
-export const renderHead = <T,>(column: Column<T>): ReactNode | JSX.Element => {
-	const { header } = column.def
-	if (isValidElement(header)) {
-		const Component = header
-		return <Component {...column.def} />
-	}
-	return header(column.def)
-}
-
-export const renderCell = <T,>(item: Cell<T>): ReactNode | JSX.Element => {
-	const { cell } = item.column.def
-	if (isValidElement(cell)) {
-		const Component = cell
-		return <Component {...item} />
-	}
-	return cell(item)
-}
+import type { Column, Row, UseTableParams } from './types'
 
 /* TODO - For better reusability. state should be tracked also internally. 
   - Why not here the state management? This hooks can be used everywhere, so don't want to make it related to next or sorting via url params  */
-const useTable = <T,>({ columnsDef, data, getRowId, onRowSelect, onColumnSort, state }: UseTableParams<T>) => {
+const useTable = <T>({ columnsDef, data, getRowId, onRowSelect, onColumnSort, state }: UseTableParams<T>) => {
 	const onSort = useCallback(
 		(id: string) => {
 			if (state?.sort.column === id) {

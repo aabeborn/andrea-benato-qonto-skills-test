@@ -1,4 +1,4 @@
-import { ColumnDef } from '@/hooks/table/types'
+import type { ColumnDef } from '@/hooks/useTable'
 
 export const getSortDirection = (direction: string | null) => {
 	if (direction === 'asc' || direction === 'desc') {
