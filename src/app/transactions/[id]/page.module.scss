@@ -1,0 +1,31 @@
+.transactions__details__item {
+	display: flex;
+	width: 100%;
+	flex-direction: column;
+	flex: 1 0 0;
+
+	padding: 2.5rem 2rem;
+	gap: 1.5rem;
+
+	&__section {
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		gap: 1rem;
+
+		&__group {
+			width: 100%;
+			display: flex;
+			flex-direction: column;
+			align-items: center;
+		}
+
+		&__main {
+			color: var(--color-primary-black);
+		}
+
+		&__sub {
+			color: var(--color-grey-600);
+		}
+	}
+}
