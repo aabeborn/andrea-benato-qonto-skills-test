@@ -1,15 +1,16 @@
 import clsx from 'clsx'
-import { FC, useMemo, ComponentProps } from 'react'
+import { type FC, useMemo, type ComponentProps, useCallback, type MouseEventHandler } from 'react'
 import { ArrowUp, ArrowDown, ChevronUpDown } from '../icons'
 import './index.css'
 
 interface TableHeadProps extends ComponentProps<'th'> {
 	sortable?: boolean
 	sortDirection?: 'asc' | 'desc'
+	onSort?: () => void
 }
 
 interface TableRowProps extends ComponentProps<'tr'> {
-	isActive?: boolean
+	isSelected?: boolean
 }
 
 const Table: FC<ComponentProps<'table'>> = ({ children, className, ...props }) => {
@@ -48,10 +49,10 @@ const TableBody: FC<ComponentProps<'tbody'>> = ({ children, className, ...props 
 	)
 }
 
-const TableRow: FC<TableRowProps> = ({ children, className, isActive, ...props }) => {
+const TableRow: FC<TableRowProps> = ({ children, className, isSelected, ...props }) => {
 	const classes = useMemo(
-		() => clsx('table__row', isActive && 'table__row--selected', className),
-		[isActive, className]
+		() => clsx('table__row', isSelected && 'table__row--selected', className),
+		[isSelected, className]
 	)
 	return (
 		<tr
@@ -63,7 +64,7 @@ const TableRow: FC<TableRowProps> = ({ children, className, isActive, ...props }
 	)
 }
 
-const TableHead: FC<TableHeadProps> = ({ children, className, sortable, sortDirection, ...props }) => {
+const TableHead: FC<TableHeadProps> = ({ children, className, sortable, sortDirection, onSort, ...props }) => {
 	const classes = useMemo(
 		() => clsx('table__head', sortable && 'table__head--sortable', className),
 		[sortable, className]
@@ -76,9 +77,17 @@ const TableHead: FC<TableHeadProps> = ({ children, className, sortable, sortDire
 		return <ChevronUpDown className='table__sort-icon' />
 	}, [sortable, sortDirection])
 
+	const clickHandler = useCallback<MouseEventHandler<HTMLTableCellElement>>(
+		e => {
+			if (sortable && onSort) onSort()
+		},
+		[sortable, onSort]
+	)
+
 	return (
 		<th
 			className={classes}
+			onClick={clickHandler}
 			{...props}
 		>
 			<div className='table__head__content'>
