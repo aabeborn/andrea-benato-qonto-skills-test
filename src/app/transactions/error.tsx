@@ -1,3 +1,4 @@
+'use client'
 const TransactionPageError = () => {
 	return (
 		<div>
