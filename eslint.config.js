@@ -1,1 +1,1 @@
-export { default } from "@aabeborn/rules/eslint/next";
+export { default } from '@aabeborn/rules/eslint/next'
