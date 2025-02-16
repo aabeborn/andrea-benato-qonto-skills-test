@@ -6,7 +6,9 @@ import type { TransactionsList } from '@/types/api/transactions'
 
 export const getTransactions = async () => {
 	try {
-		const response = await fetch(`${API_BASE_PATH}${TRANSACTIONS_API_PATH}`)
+		const response = await fetch(`${API_BASE_PATH}${TRANSACTIONS_API_PATH}`, {
+			cache: 'no-cache'
+		})
 
 		if (!response.ok) {
 			throw new Error(

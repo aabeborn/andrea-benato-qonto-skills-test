@@ -1,0 +1,34 @@
+.transactions__list__content__skeleton {
+	display: flex;
+	flex-direction: column;
+	flex: 1 0 0;
+
+	&__header {
+		height: 38px;
+		display: inline-flex;
+		justify-content: space-between;
+		gap: 1.5rem;
+		background: var(--color-primary-black);
+		padding: 0.4rem 2.5rem;
+
+		&__item {
+			flex: 1 0 0;
+			height: 100%;
+		}
+	}
+
+	&__row {
+		display: inline-flex;
+		height: 3rem;
+		padding: 0.625rem 2.5rem;
+		border-bottom: 1px solid var(--color-grey-300);
+		display: inline-flex;
+		justify-content: space-between;
+		gap: 1.5rem;
+
+		&__item {
+			flex: 1 0 0;
+			height: 100%;
+		}
+	}
+}

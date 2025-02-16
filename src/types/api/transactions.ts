@@ -1,10 +1,10 @@
 export interface Transaction {
 	id: string
-	amount: number
-	date: string
-	description: string
-	from: string
-	to: string
+	created_at: string
+	amount: string
+	operation_type: string
+	counterparty_name: string
+	currency: string
 }
 
 export interface TransactionsList {

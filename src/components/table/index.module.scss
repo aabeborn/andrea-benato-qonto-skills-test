@@ -4,9 +4,15 @@
 	border: none;
 	border-collapse: collapse;
 
-	&__header > .table__row {
-		background: var(--color-primary-black);
-		padding: 0 2.5rem;
+	&__header {
+		position: sticky;
+		top: 0;
+		z-index: 1;
+
+		& > .table__row {
+			background: var(--color-primary-black);
+			padding: 0 2.5rem;
+		}
 	}
 
 	&__head {
