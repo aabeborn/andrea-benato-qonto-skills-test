@@ -1,4 +1,4 @@
-import { FC, HTMLAttributes, useMemo } from 'react'
+import { type FC, type HTMLAttributes, useMemo } from 'react'
 import './index.css'
 import clsx from 'clsx'
 
